@@ -1,0 +1,63 @@
+<script type="text/ng-template" id="json-delete-item">
+    <a href="" ng-click="node.remove()" class="jsonAction">
+        <i class="icon-trash"></i>
+    </a>
+</script>
+
+<script type="text/ng-template" id="json-editor-node">
+    <div class="row">
+        <div class="seven columns">
+            <div class="two columns jsonType" ng-switch="node.type">
+                <i ng-switch-when="array">[]</i>
+                <i ng-switch-when="object">{}</i>
+            </div>
+            <div class="ten columns">
+                <ng-include src="'json-delete-item'"></ng-include>
+                <a href="" class="jsonAction"
+                   ng-click="node.isAdding = !node.isAdding">
+                    <i class="icon-list-add" ng-class="{'jsonAddingItem': node.isAdding}"></i>
+                </a>
+                <span ng-show="node.isAdding" class="jsonAddTypes">
+                    <a href="" class="normalLink" ng-click='node.addChild("")'>""</a>
+                    <a href="" class="normalLink" ng-click="node.addChild([])">[]</a>
+                    <a href="" class="normalLink" ng-click="node.addChild({})">{}</a>
+                </span>
+            </div>
+        </div>
+    </div>
+    <div class="indent">
+        <div ng-switch="node.type">
+            <div ng-switch-when="array">
+                <div ng-repeat="node in node.children">
+                    <div class="row">
+                        <span ng-switch="node.type">
+                            <span ng-switch-when="primitive">
+                                <ng-include src="'json-delete-item'"></ng-include>
+                                <input type="text" class="jsonEditable" ng-model="node.value"/>
+                            </span>
+                            <div ng-switch-default ng-include="'json-editor-node'"></div>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div ng-switch-when="object">
+                <div ng-repeat="(key, node) in node.children">
+                    <div class="row">
+                        <ng-include src="'json-delete-item'"></ng-include>
+                        <span>
+                            <input type="text" class="jsonEditable"
+                                   ng-model="newKey" ng-change="node.updateKey(newKey)" ng-init="newKey = key"/>
+                        </span>
+                        <span> : </span>
+                        <span ng-switch="node.type">
+                            <span ng-switch-when="primitive">
+                                <input type="text" class="jsonEditable" ng-model="node.value"/>
+                            </span>
+                            <div ng-switch-default ng-include="'json-editor-node'"></div>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>

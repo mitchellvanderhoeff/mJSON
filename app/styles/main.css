@@ -1,0 +1,50 @@
+.mainContainer {
+    padding: 30px 0px;
+    margin: 10px;
+    border-radius: 5px;
+}
+
+.jsonEditable {
+    background: #fafafa;
+    border: 1px dotted lightgrey;
+    border-radius: 5px;
+
+    font-family: "Monaco";
+    font-size: 16px;
+
+    padding: 2px;
+}
+
+.jsonEditable:focus {
+    background: #f0f0ff;
+    border: 1px solid black;
+}
+
+.jsonAddingItem {
+    color: black;
+}
+
+.jsonAction {
+    color: #878787;
+}
+
+.jsonType {
+    background: #f0f0ff;
+    border-radius: 5px;
+}
+
+.jsonAddTypes {
+    margin-left: 10px;
+    padding: 0px 6px;
+    background: #f0f0ff;
+    border-radius: 5px;
+}
+
+.jsonAddTypes a {
+    color: black;
+}
+
+.indent {
+    padding-left: 35px;
+    margin: 4px;
+}
