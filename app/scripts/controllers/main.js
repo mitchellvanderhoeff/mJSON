@@ -1,12 +1,18 @@
 'use strict';
 
 function EditorCtrl($scope) {
-    $scope.model = {};
-    $scope.modelString = function () {
-        return JSON.stringify($scope.model);
+    $scope.model = null;
+    $scope.augmentedModel = augment({"kek": true});
+
+    $scope.idForEditable = function (node) {
+        return "editable-" + node.$$hashKey;
     };
 
-    $scope.augmentedModel = augmentModel({});
+    $scope.addSibling = function (node) {
+        var newSibling = node.addPrimitiveSibling();
+        angular.element("#" + $scope.idForEditable(newSibling)).focus();
+    };
+
     $scope.$watch('augmentedModel', function (newAugmentedModel) {
         $scope.model = strip(newAugmentedModel);
     }, true);

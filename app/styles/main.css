@@ -4,6 +4,14 @@
     border-radius: 5px;
 }
 
+.mainContainer span {
+    border-radius: 5px;
+}
+
+.mainContainer div {
+    border-radius: 5px;
+}
+
 .jsonEditable {
     background: #fafafa;
     border: 1px dotted lightgrey;
@@ -15,33 +23,67 @@
     padding: 2px;
 }
 
-.jsonEditable:focus {
-    background: #f0f0ff;
-    border: 1px solid black;
+.jsonEditableField {
+    font-family: "Monaco";
+    font-size: 16px;
+    /*width: 100%;*/
+    border: none;
+
 }
 
-.jsonAddingItem {
-    color: black;
-}
-
-.jsonAction {
-    color: #878787;
+.jsonEditableField:focus {
+    border: none;
 }
 
 .jsonType {
-    background: #f0f0ff;
+    background: #eaeaea;
     border-radius: 5px;
 }
 
 .jsonAddTypes {
     margin-left: 10px;
     padding: 0px 6px;
-    background: #f0f0ff;
+    background: #ebeded;
     border-radius: 5px;
 }
 
 .jsonAddTypes a {
+    color: grey;
+}
+
+.jsonAddBar {
+    background: #fafafa;
+    border-radius: 5px;
+    border-left: 2px solid darkgray;
+    border-right: 2px solid darkgray;
+}
+
+.jsonPrimTypeSelect {
+    background: #fafafa;
+    border: 1px black solid;
+    border-radius: 5px;
+
+    padding: 5px;
+    margin-left: 10px;
     color: black;
+    font-size: 13px;
+}
+
+.jsonDeleteIcon {
+    color: #9d4748;
+}
+
+.jsonBoolean {
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+.jsonBoolean.true {
+    color: #006600;
+}
+
+.jsonBoolean.false {
+    color: #660000;
 }
 
 .indent {

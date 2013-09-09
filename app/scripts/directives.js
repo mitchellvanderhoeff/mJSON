@@ -6,15 +6,28 @@
 var app = angular.module('mJSONApp');
 
 app
-    .directive('ngOnEnter', function () {
+    .directive('ngcOnEnter', function () {
         return {
             restrict: 'A',
             link: function ($scope, element, attrs) {
                 element.bind('keypress', function (event) {
                     if (event.which == 13) {
-                        $scope.$apply(attrs.ngOnEnter);
+                        $scope.$apply(function () {
+                            $scope.$eval(attrs.ngOnEnter);
+                        });
                         event.preventDefault();
-                        element.blur();
+                    }
+                });
+            }
+        }
+    })
+    .directive('ngcFocusOn', function () {
+        return {
+            restrict: 'A',
+            link: function ($scope, element, attrs) {
+                $scope.$watch(attrs['ngcFocusOn'], function (shouldFocus) {
+                    if (shouldFocus === true) {
+                        element.focus();
                     }
                 });
             }

@@ -1,26 +1,57 @@
 <script type="text/ng-template" id="json-delete-item">
-    <a href="" ng-click="node.remove()" class="jsonAction">
+    <a href="" ng-click="node.remove()" class="jsonDeleteIcon">
         <i class="icon-trash"></i>
     </a>
+</script>
+
+<script type="text/ng-template" id="json-primitive">
+    <span class="eight colgrid">
+        <span class="seven columns jsonEditable" ng-switch="node.primType" id="{{ idForEditable(node) }}">
+            <span ng-switch-when="boolean">
+                <span class="jsonBoolean center">
+                    <a href="" class="jsonBoolean true" ng-show="node.value == 'true'" ng-click="node.value = 'false'">true</a>
+                    <a href="" class="jsonBoolean false" ng-show="node.value == 'false'" ng-click="node.value = 'true'">false</a>
+                </span>
+            </span>
+            <span ng-switch-when="number">
+                <input class="jsonEditableField" type="text" ng-model="node.value" value="{{ node.value | number }}" ngc-on-enter="node.addPrimitiveSibling()"/>
+            </span>
+            <span ng-switch-when="string">
+                <input class="jsonEditableField" type="text" ng-model="node.value"
+                       ngc-on-enter="node.addPrimitiveSibling()" ngc-focus-on="node.isLastAdded"/>
+            </span>
+        </span>
+        <span class="one column">
+            <a href="" class="jsonPrimTypeSelect" data-dropdown="#dropdown-{{ node.$$hashKey }}">
+                {{ node.primType }}
+            </a>
+        </span>
+        <div id="dropdown-{{ node.$$hashKey }}" class="dropdown dropdown-tip">
+            <ul class="dropdown-menu">
+                <li><a href="" ng-click="node.setPrimType('boolean')">boolean</a></li>
+                <li><a href="" ng-click="node.setPrimType('number')">number</a></li>
+                <li><a href="" ng-click="node.setPrimType('string')">string</a></li>
+            </ul>
+        </div>
+    </span>
 </script>
 
 <script type="text/ng-template" id="json-editor-node">
     <div class="row">
         <div class="seven columns">
-            <div class="two columns jsonType" ng-switch="node.type">
-                <i ng-switch-when="array">[]</i>
-                <i ng-switch-when="object">{}</i>
+            <div class="two columns" ng-switch="node.type">
+                <span ng-include="'json-delete-item'"></span>
+                <i class="jsonType" ng-switch-when="array">[{{ node.size() }}]</i>
+                <i class="jsonType" ng-switch-when="object"><span ng-non-bindable>{</span>{{ node.size() }}<span ng-non-bindable>}</span></i>
             </div>
             <div class="ten columns">
-                <ng-include src="'json-delete-item'"></ng-include>
-                <a href="" class="jsonAction"
-                   ng-click="node.isAdding = !node.isAdding">
-                    <i class="icon-list-add" ng-class="{'jsonAddingItem': node.isAdding}"></i>
-                </a>
-                <span ng-show="node.isAdding" class="jsonAddTypes">
-                    <a href="" class="normalLink" ng-click='node.addChild("")'>""</a>
-                    <a href="" class="normalLink" ng-click="node.addChild([])">[]</a>
-                    <a href="" class="normalLink" ng-click="node.addChild({})">{}</a>
+                <span class="jsonAddBar">
+                    <i class="icon-plus jsonListAddIcon"></i>
+                    <span class="jsonAddTypes">
+                        <a href="" ng-click='node.addPrimitive()'>""</a>
+                        <a href="" ng-click="node.addArray()">[]</a>
+                        <a href="" ng-click="node.addObject()">{}</a>
+                    </span>
                 </span>
             </div>
         </div>
@@ -31,9 +62,11 @@
                 <div ng-repeat="node in node.children">
                     <div class="row">
                         <span ng-switch="node.type">
-                            <span ng-switch-when="primitive">
-                                <ng-include src="'json-delete-item'"></ng-include>
-                                <input type="text" class="jsonEditable" ng-model="node.value"/>
+                            <span class="four columns" ng-switch-when="primitive">
+                                <span class="twelve colgrid">
+                                    <span class="one column" ng-include="'json-delete-item'"></span>
+                                    <span class="eleven columns" ng-include="'json-primitive'"></span>
+                                </span>
                             </span>
                             <div ng-switch-default ng-include="'json-editor-node'"></div>
                         </span>
@@ -43,17 +76,17 @@
             <div ng-switch-when="object">
                 <div ng-repeat="(key, node) in node.children">
                     <div class="row">
-                        <ng-include src="'json-delete-item'"></ng-include>
-                        <span>
-                            <input type="text" class="jsonEditable"
-                                   ng-model="newKey" ng-change="node.updateKey(newKey)" ng-init="newKey = key"/>
-                        </span>
-                        <span> : </span>
-                        <span ng-switch="node.type">
-                            <span ng-switch-when="primitive">
-                                <input type="text" class="jsonEditable" ng-model="node.value"/>
+                        <span class="four columns">
+                            <span ng-include="'json-delete-item'"></span>
+                            <span class="jsonEditable">
+                                <input type="text" class="jsonEditableField"
+                                       ng-model="newKey" ng-change="node.updateKey(newKey)" ng-init="newKey = key"/>
                             </span>
-                            <div ng-switch-default ng-include="'json-editor-node'"></div>
+                            <span> : </span>
+                            <span ng-switch="node.type">
+                                <span ng-switch-when="primitive" ng-include="'json-primitive'"></span>
+                                <span ng-switch-default ng-include="'json-editor-node'" class="indent"></span>
+                            </span>
                         </span>
                     </div>
                 </div>

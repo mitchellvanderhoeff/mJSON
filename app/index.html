@@ -17,6 +17,7 @@
 
     <!-- build:css({.tmp,app}) styles/main.css -->
     <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="bower_components/jquery-dropdown/jquery.dropdown.css">
     <link rel="stylesheet" href="bower_components/gumby/css/gumby.css">
     <!-- endbuild -->
 </head>
@@ -37,13 +38,17 @@
 <div class="container" ng-view=""></div>
 
 <script src="bower_components/jquery/jquery.min.js"></script>
+<script src="bower_components/jquery-dropdown/jquery.dropdown.js"></script>
 
 <script src="bower_components/angular/angular.js"></script>
 <script src="public/sugar.min.js"></script>
 
 <!-- build:js({.tmp,app}) scripts/scripts.js -->
 <script src="scripts/app.js"></script>
-<script src="scripts/augmentModel.js"></script>
+<script src="scripts/domain/augmentedObject.js"></script>
+<script src="scripts/domain/augmentedArray.js"></script>
+<script src="scripts/domain/augmentedPrimitive.js"></script>
+<script src="scripts/domain/augment.js"></script>
 <script src="scripts/controllers/main.js"></script>
 <script src="scripts/directives.js"></script>
 <!-- endbuild -->
